@@ -1,14 +1,18 @@
 import React from 'react';
 import { styled } from 'nativewind';
 import { Text, View  } from 'react-native';
+import SliderComponent from '../components/SliderComponent';
 
-const StyledView = styled(View)
-const StyledText = styled(Text)
+const StyledView = styled(View);
+const StyledText = styled(Text);
 
 export default function HomeScreen(): React.JSX.Element {
     return (
-    <StyledView className="flex-1 items-center justify-center">
-        <StyledText className="text-slate-800">Home Screen 🎉</StyledText>
-    </StyledView>
-  )
+        <StyledView className="flex-1">
+            <SliderComponent />
+            <StyledView className="flex-1 items-center justify-center">
+                <StyledText className="text-slate-800">Home Screen 🎉</StyledText>
+            </StyledView>
+        </StyledView>
+    );
 }
