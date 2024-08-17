@@ -53,7 +53,7 @@ export default function SliderComponent(): React.JSX.Element {
                     </StyledView>
                 )}
                 itemWidth={screenWidth}
-                onSnapToItem={(index) => console.log(`Image index: ${index}`)}
+                // onSnapToItem={(index) => console.log(`Image index: ${index}`)}
                 autoplay
                 customPagination={({ activeIndex }) => (
                     <StyledView className="absolute bottom-4 left-0 right-0 flex-row justify-center">

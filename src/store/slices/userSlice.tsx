@@ -6,11 +6,17 @@ const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 // Types
 interface User {
     id: string;
-    firstname: string;
-    lastname: string;
+    username: string;
     email: string;
-    avatar: string;
     token: string;
+    phone: string;	
+    gender: string;	
+    street: string;	
+    zipCode: string;	
+    city: string;	
+    country: string;
+    roles: string;
+    ordersCount: string;
 }
 
 interface UserState {
@@ -38,11 +44,17 @@ const initialState: UserState = {
     error: null,
     user: {
         id: "",
-        firstname: "",
-        lastname: "",
+        username: "",
         email: "",
-        avatar: "",
-        token: ""
+        token: "",
+        phone: "",	
+        gender: "",	
+        street: "",	
+        zipCode: "",	
+        city: "",	
+        country: "",
+        roles: "",
+        ordersCount: "",
     }
 }
 
@@ -83,11 +95,17 @@ export const userSlice = createSlice({
             state.error = null;
             state.user = {
                 id: "",
-                firstname: "",
-                lastname: "",
+                username: "",
                 email: "",
-                avatar: "",
-                token: ""
+                token: "",
+                phone: "",	
+                gender: "",	
+                street: "",	
+                zipCode: "",	
+                city: "",	
+                country: "",
+                roles: "",
+                ordersCount: "",
             };
         },
         changeStatus: (state, action: PayloadAction<string>) => {
