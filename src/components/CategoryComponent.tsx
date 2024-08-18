@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,16 +7,16 @@ import { getAllCategories } from '../store/slices/categorySlice';
 import { AppDispatch, RootState } from '../store/Store';
 
 export default function CategoryComponent(): React.JSX.Element {
-    
+
     const dispatch = useDispatch<AppDispatch>();
     const { status, categories } = useSelector((state: RootState) => state.category);
 
     const fetchCategories = async () => {
         try {
-            const response = await dispatch(getAllCategories({}));  
-            console.log("Fetched Categories Response:", response); 
+            const response = await dispatch(getAllCategories({}));
+            console.log('Fetched Categories Response:', response);
         } catch (error) {
-            console.error("Erreur lors de la récupération des catégories :", error);
+            console.error('Erreur lors de la récupération des catégories :', error);
         }
     };
 
@@ -32,7 +34,7 @@ export default function CategoryComponent(): React.JSX.Element {
 
     return (
         <FlatList
-            data={categories} 
+            data={categories}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
                 <View style={{ marginVertical: 10 }}>
