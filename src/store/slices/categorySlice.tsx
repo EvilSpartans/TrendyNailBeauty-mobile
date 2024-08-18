@@ -1,26 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
+import { Category } from '../../models/category';
 
-const BASE_URL = `${process.env.REACT_APP_API_URL}`;
-
-console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+// const BASE_URL = `${process.env.REACT_APP_API_URL}`;
+const BASE_URL = 'http://localhost:3000/api';
 
 // Types
-interface Product {
-    id: string;
-    name: string;
-    image: string;
-    price: number;
-}
-
-interface Category {
-    id: string;
-    name: string;
-    products: Product[];
-    image: string;
-    productsCount: number;
-}
-
 interface CategoryState {
     status: string;
     error: string | null;
@@ -28,10 +13,7 @@ interface CategoryState {
 }
 
 interface APIResponse {
-    data: {
-        categories: Category[];
-        message?: string;
-    };
+  categories: Category[];
 }
 
 interface APIError {
@@ -39,7 +21,6 @@ interface APIError {
     detail?: string;
 }
 
-// Initial State
 const initialState: CategoryState = {
     status: '',
     error: null,
@@ -83,7 +64,7 @@ export const categorySlice = createSlice({
             .addCase(getAllCategories.fulfilled, (state, action: PayloadAction<APIResponse>) => {
                 state.status = 'succeeded';
                 state.error = null;
-                state.categories = action.payload.data.categories;
+                state.categories = action.payload.categories;
             })
             .addCase(getAllCategories.rejected, (state, action) => {
                 state.status = 'failed';

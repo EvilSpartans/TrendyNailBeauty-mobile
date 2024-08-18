@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios, { AxiosError } from 'axios';
 
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
@@ -9,11 +9,11 @@ interface User {
     username: string;
     email: string;
     token: string;
-    phone: string;	
-    gender: string;	
-    street: string;	
-    zipCode: string;	
-    city: string;	
+    phone: string;
+    gender: string;
+    street: string;
+    zipCode: string;
+    city: string;
     country: string;
     roles: string;
     ordersCount: string;
@@ -40,27 +40,27 @@ interface APIError {
 
 // Initial State
 const initialState: UserState = {
-    status: "",
+    status: '',
     error: null,
     user: {
-        id: "",
-        username: "",
-        email: "",
-        token: "",
-        phone: "",	
-        gender: "",	
-        street: "",	
-        zipCode: "",	
-        city: "",	
-        country: "",
-        roles: "",
-        ordersCount: "",
-    }
-}
+        id: '',
+        username: '',
+        email: '',
+        token: '',
+        phone: '',
+        gender: '',
+        street: '',
+        zipCode: '',
+        city: '',
+        country: '',
+        roles: '',
+        ordersCount: '',
+    },
+};
 
 // Thunks
 export const registerUser = createAsyncThunk<APIResponse, Partial<User>, { rejectValue: APIError }>(
-    "api/signup",
+    'api/signup',
     async (values, { rejectWithValue }) => {
         try {
             const { data } = await axios.post<APIResponse>(`${BASE_URL}/signup`, values);
@@ -73,7 +73,7 @@ export const registerUser = createAsyncThunk<APIResponse, Partial<User>, { rejec
 );
 
 export const loginUser = createAsyncThunk<APIResponse, Partial<User>, { rejectValue: APIError }>(
-    "api/signin",
+    'api/signin',
     async (values, { rejectWithValue }) => {
         try {
             const { data } = await axios.post<APIResponse>(`${BASE_URL}/signin`, values);
@@ -87,25 +87,25 @@ export const loginUser = createAsyncThunk<APIResponse, Partial<User>, { rejectVa
 
 // Slice
 export const userSlice = createSlice({
-    name: "User",
+    name: 'User',
     initialState,
     reducers: {
         logout: (state) => {
-            state.status = "";
+            state.status = '';
             state.error = null;
             state.user = {
-                id: "",
-                username: "",
-                email: "",
-                token: "",
-                phone: "",	
-                gender: "",	
-                street: "",	
-                zipCode: "",	
-                city: "",	
-                country: "",
-                roles: "",
-                ordersCount: "",
+                id: '',
+                username: '',
+                email: '',
+                token: '',
+                phone: '',
+                gender: '',
+                street: '',
+                zipCode: '',
+                city: '',
+                country: '',
+                roles: '',
+                ordersCount: '',
             };
         },
         changeStatus: (state, action: PayloadAction<string>) => {
@@ -115,37 +115,37 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(registerUser.pending, (state) => {
-                state.status = "loading";
+                state.status = 'loading';
             })
             .addCase(registerUser.fulfilled, (state, action: PayloadAction<APIResponse>) => {
-                state.status = "succeeded";
+                state.status = 'succeeded';
                 state.error = null;
                 state.user = {
                     ...action.payload.data.user,
-                    token: action.payload.data.token
+                    token: action.payload.data.token,
                 };
             })
             .addCase(registerUser.rejected, (state, action) => {
-                state.status = "failed";
-                state.error = action.payload?.message || "Failed to register";
+                state.status = 'failed';
+                state.error = action.payload?.message || 'Failed to register';
             })
             .addCase(loginUser.pending, (state) => {
-                state.status = "loading";
+                state.status = 'loading';
             })
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<APIResponse>) => {
-                state.status = "succeeded";
+                state.status = 'succeeded';
                 state.error = action.payload.data.message || null;
                 state.user = {
                     ...action.payload.data.user,
-                    token: action.payload.data.token
+                    token: action.payload.data.token,
                 };
             })
             .addCase(loginUser.rejected, (state, action) => {
-                state.status = "failed";
-                state.error = action.payload?.message || "Failed to login";
+                state.status = 'failed';
+                state.error = action.payload?.message || 'Failed to login';
             });
-    }
-})
+    },
+});
 
 export const { logout, changeStatus } = userSlice.actions;
 export default userSlice.reducer;

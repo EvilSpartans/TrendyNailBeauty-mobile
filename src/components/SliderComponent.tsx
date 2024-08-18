@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Image, Text, Dimensions } from 'react-native';
 import { Carousel } from 'react-native-basic-carousel';
@@ -6,20 +8,20 @@ import { styled } from 'nativewind';
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const images = [
-  { 
-    source: require('../../assets/images/slider-1.png'), 
-    title: "First Slide", 
-    subtitle: "This is the first slide" 
+  {
+    source: require('../../assets/images/slider-1.png'),
+    title: 'First Slide',
+    subtitle: 'This is the first slide',
   },
-  { 
-    source: require('../../assets/images/slider-2.png'), 
-    title: "Second Slide", 
-    subtitle: "This is the second slide" 
+  {
+    source: require('../../assets/images/slider-2.png'),
+    title: 'Second Slide',
+    subtitle: 'This is the second slide',
   },
-  { 
-    source: require('../../assets/images/slider-3.png'), 
-    title: "Third Slide", 
-    subtitle: "This is the third slide" 
+  {
+    source: require('../../assets/images/slider-3.png'),
+    title: 'Third Slide',
+    subtitle: 'This is the third slide',
   },
 ];
 
@@ -28,20 +30,20 @@ const StyledText = styled(Text);
 
 export default function SliderComponent(): React.JSX.Element {
     return (
-        <StyledView style={{ height: screenHeight * 0.5 }}> 
-            <Carousel 
+        <StyledView style={{ height: screenHeight * 0.6 }}>
+            <Carousel
                 data={images}
                 renderItem={({ item }) => (
                     <StyledView className="w-full justify-center items-center" style={{ height: '100%' }}>
-                        <Image 
-                            source={item.source ? item.source : null} 
-                            style={{ width: screenWidth, height: '100%' }} 
-                            resizeMode="cover" 
-                            onError={(e) => console.log("Image loading error: ", e.nativeEvent.error)}
+                        <Image
+                            source={item.source ? item.source : null}
+                            style={{ width: screenWidth, height: '100%' }}
+                            resizeMode="cover"
+                            onError={(e) => console.log('Image loading error: ', e.nativeEvent.error)}
                         />
-                        <StyledView 
-                            className="absolute bottom-8 left-4 p-2 rounded" 
-                            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} 
+                        <StyledView
+                            className="absolute bottom-8 left-4 p-2 rounded"
+                            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                         >
                             <StyledText className="text-white text-lg">
                                 {item.subtitle}
