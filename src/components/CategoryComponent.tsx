@@ -59,8 +59,8 @@ export default function CategoryComponent(): React.JSX.Element {
             <TouchableOpacity style={{marginRight: 15}}>
               <Text
                 style={{
-                  color: '#7BB8E3',
-                  borderColor: '#7BB8E3',
+                  color: '#5EA3CC',
+                  borderColor: '#5EA3CC',
                   borderWidth: 1,
                   paddingHorizontal: 10,
                   paddingVertical: 5,

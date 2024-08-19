@@ -9,14 +9,14 @@ export default function SearchComponent(): React.JSX.Element {
   style={{
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#B3D4EF',
+    borderColor: '#5EA3CC',
     borderWidth: 1,
     borderRadius: 20,
     paddingHorizontal: 10,
     marginBottom: 20,
     backgroundColor: '#FFFFFF',
   }}>
-  <FontAwesome name="search" size={20} color="#B3D4EF" />
+  <FontAwesome name="search" size={20} color="#5EA3CC" />
   <TextInput
     placeholder="Rechercher..."
     style={{
