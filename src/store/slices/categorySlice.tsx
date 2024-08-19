@@ -1,9 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Category } from '../../models/category';
-
-// const BASE_URL = `${process.env.REACT_APP_API_URL}`;
-const BASE_URL = 'http://localhost:3000/api';
+import { getAllCategories } from '../../services/category.service';
 
 // Types
 interface CategoryState {
@@ -12,40 +9,11 @@ interface CategoryState {
     categories: Category[];
 }
 
-interface APIResponse {
-  categories: Category[];
-}
-
-interface APIError {
-    message: string;
-    detail?: string;
-}
-
 const initialState: CategoryState = {
     status: '',
     error: null,
     categories: [],
 };
-
-// Thunks
-export const getAllCategories = createAsyncThunk<
-  APIResponse,
-  Partial<Category>,
-  {rejectValue: APIError}
->('api/categories', async (params, {rejectWithValue}) => {
-  try {
-    const url = `${BASE_URL}/categories`;
-    console.log('API Route:', url); // Log de la route API
-    const {data} = await axios.get<APIResponse>(url, {params});
-    return data;
-  } catch (error) {
-    const axiosError = error as AxiosError<APIError>;
-    return rejectWithValue(
-      axiosError.response?.data || {message: 'Unknown error'},
-    );
-  }
-});
-
 
 // Slice
 export const categorySlice = createSlice({
@@ -61,10 +29,10 @@ export const categorySlice = createSlice({
             .addCase(getAllCategories.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(getAllCategories.fulfilled, (state, action: PayloadAction<APIResponse>) => {
+            .addCase(getAllCategories.fulfilled, (state, action: PayloadAction<Category[]>) => {
                 state.status = 'succeeded';
                 state.error = null;
-                state.categories = action.payload.categories;
+                state.categories = action.payload;
             })
             .addCase(getAllCategories.rejected, (state, action) => {
                 state.status = 'failed';

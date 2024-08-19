@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import SearchScreen from '../screens/SearchScreen';
+import SearchScreen from '../screens/SearchScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CartScreen from '../screens/CartScreen';
 
@@ -21,7 +21,7 @@ function TabNavigator(): React.JSX.Element {
           ),
         }} 
       />
-      {/* <Tab.Screen 
+      <Tab.Screen 
         name="Rechercher" 
         component={SearchScreen} 
         options={{ 
@@ -30,7 +30,7 @@ function TabNavigator(): React.JSX.Element {
             <Icon name="search" color={color} size={size} />
           ),
         }} 
-      /> */}
+      />
       <Tab.Screen 
         name="Panier" 
         component={CartScreen} 

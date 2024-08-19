@@ -1,49 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {getAllCategories} from '../store/slices/categorySlice';
-import {AppDispatch} from '../store/Store';
-
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-}
-
-interface Category {
-  id: string;
-  name: string;
-  products: Product[];
-  image: string;
-  productsCount: number;
-}
+import React, { useEffect } from 'react';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/Store';
+import { getAllCategories } from '../services/category.service';
 
 export default function CategoryComponent(): React.JSX.Element {
+  
   const dispatch = useDispatch<AppDispatch>();
-  const [categories, setCategories] = useState<Category[]>([]);
-  const baseUrl = 'http://localhost:3000/uploads/images';
-
-  const fetchCategories = async () => {
-    try {
-      const response = await dispatch(getAllCategories({}));
-      console.log('Fetched Categories Response:', response);
-
-      if (Array.isArray(response.payload)) {
-        setCategories(response.payload);
-      } else {
-        console.error('Unexpected API response format');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des catégories :', error);
-    }
-  };
+  const categories = useSelector((state: RootState) => state.category.categories);
+  const status = useSelector((state: RootState) => state.category.status);
+  const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+  const imageBaseUrl = `${BASE_URL}/uploads/images`;
 
   useEffect(() => {
-    fetchCategories();
-  }, [dispatch]);
+    if (status === '') { 
+      dispatch(getAllCategories({}));
+    }
+  }, [dispatch, status]);
 
   return (
     <FlatList
@@ -89,7 +64,7 @@ export default function CategoryComponent(): React.JSX.Element {
                   borderWidth: 1,
                   paddingHorizontal: 10,
                   paddingVertical: 5,
-                  borderRadius: 10, // Augmentation du borderRadius pour des coins plus arrondis
+                  borderRadius: 10, 
                 }}>
                 Voir tout &gt;
               </Text>
@@ -106,17 +81,17 @@ export default function CategoryComponent(): React.JSX.Element {
             renderItem={({item: product}) => (
               <View
                 style={{
-                  marginLeft: 5, // Réduction de la marge à gauche
-                  marginRight: 5, // Réduction de la marge à droite
+                  marginLeft: 5,
+                  marginRight: 5,
                   alignItems: 'center',
-                  borderWidth: 1,
-                  borderColor: '#ddd',
+                  borderWidth: 5,
+                  borderColor: '#fff',
                   borderRadius: 10,
                   padding: 10,
-                  backgroundColor: '#e6eff7', // Couleur légèrement blanche bleutée
+                  backgroundColor: '#B3D4EF',
                 }}>
                 <Image
-                  source={{uri: `${baseUrl}/${product.image}`}}
+                  source={{uri: `${imageBaseUrl}/${product.image}`}}
                   style={{width: 100, height: 100, borderRadius: 10}}
                 />
                 <Text style={{marginTop: 5}}>{product.name}</Text>
@@ -126,7 +101,7 @@ export default function CategoryComponent(): React.JSX.Element {
                 </Text>
               </View>
             )}
-            showsHorizontalScrollIndicator={false} // Cacher la scrollbar horizontale
+            showsHorizontalScrollIndicator={false} 
           />
         </View>
       )}

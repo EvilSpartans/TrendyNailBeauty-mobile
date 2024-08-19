@@ -1,79 +1,111 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Image, Text, Dimensions } from 'react-native';
+import { View, Image, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Carousel } from 'react-native-basic-carousel';
 import { styled } from 'nativewind';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-
-const images = [
-  {
-    source: require('../../assets/images/slider-1.png'),
-    title: 'First Slide',
-    subtitle: 'This is the first slide',
-  },
-  {
-    source: require('../../assets/images/slider-2.png'),
-    title: 'Second Slide',
-    subtitle: 'This is the second slide',
-  },
-  {
-    source: require('../../assets/images/slider-3.png'),
-    title: 'Third Slide',
-    subtitle: 'This is the third slide',
-  },
-];
+const { width: screenWidth } = Dimensions.get('window');
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
-export default function SliderComponent(): React.JSX.Element {
-    return (
-        <StyledView style={{ height: screenHeight * 0.6 }}>
-            <Carousel
-                data={images}
-                renderItem={({ item }) => (
-                    <StyledView className="w-full justify-center items-center" style={{ height: '100%' }}>
-                        <Image
-                            source={item.source ? item.source : null}
-                            style={{ width: screenWidth, height: '100%' }}
-                            resizeMode="cover"
-                            onError={(e) => console.log('Image loading error: ', e.nativeEvent.error)}
-                        />
-                        <StyledView
-                            className="absolute bottom-8 left-4 p-2 rounded"
-                            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                        >
-                            <StyledText className="text-white text-lg">
-                                {item.subtitle}
-                            </StyledText>
-                            <StyledText className="text-white text-2xl font-bold">
-                                {item.title}
-                            </StyledText>
-                        </StyledView>
-                    </StyledView>
-                )}
-                itemWidth={screenWidth}
-                // onSnapToItem={(index) => console.log(`Image index: ${index}`)}
-                autoplay
-                customPagination={({ activeIndex }) => (
-                    <StyledView className="absolute bottom-4 left-0 right-0 flex-row justify-center">
-                        {images.map((_, i) => (
-                            <View
-                                key={i}
-                                style={{
-                                    width: 10,
-                                    height: 10,
-                                    borderRadius: 5,
-                                    backgroundColor: i === activeIndex ? '#FFEE58' : '#90A4AE',
-                                    marginHorizontal: 3,
-                                }}
-                            />
-                        ))}
-                    </StyledView>
-                )}
+type SliderComponentProps = {
+  images: Array<{
+    id: string;
+    source: any;
+    title: string;
+    subtitle: string;
+  }>;
+  heightFactor?: number;
+  styleVariant?: 'default' | 'discover'; 
+};
+
+export default function SliderComponent({
+  images,
+  heightFactor = 0.6,
+  styleVariant = 'default',
+}: SliderComponentProps): React.JSX.Element {
+  const screenHeight = Dimensions.get('window').height;
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL || 'https://default-url.com';
+
+  return (
+    <StyledView 
+      style={{
+        height: screenHeight * heightFactor,
+        backgroundColor: '#B3D4EF', // Même fond bleu que les cartes
+        borderRadius: 10, // Même bord arrondi que les cartes
+        overflow: 'hidden', // Assure que les bords arrondis sont respectés
+        borderColor: '#fff', // Même couleur de contour que les cartes
+        borderWidth: 5, // Largeur de l'encadrement
+      }}
+    >
+      <Carousel
+        data={images}
+        renderItem={({ item }) => (
+          <StyledView className="w-full justify-center items-center" style={{ height: '100%' }}>
+            <Image
+              source={item.source ? item.source : null}
+              style={{ width: screenWidth, height: '100%' }}
+              resizeMode="cover"
+              onError={(e) => console.log('Image loading error: ', e.nativeEvent.error)}
             />
-        </StyledView>
-    );
+            {styleVariant === 'default' ? (
+              <StyledView
+                className="absolute bottom-8 left-4 p-2 rounded"
+                style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
+              >
+                <StyledText className="text-white text-lg">
+                  {item.subtitle}
+                </StyledText>
+                <StyledText className="text-white text-2xl font-bold">
+                  {item.title}
+                </StyledText>
+              </StyledView>
+            ) : (
+            <StyledView
+              className="absolute left-4 justify-center" 
+              style={{ height: '100%' }} 
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  const url = `${BASE_URL}/category/${item.id}`;
+                }}
+                style={{
+                  backgroundColor: '#FFEE58',
+                  paddingVertical: 10,
+                  paddingHorizontal: 20,
+                  borderRadius: 5,
+                }}
+              >
+                <StyledText className="text-black text-lg font-bold">
+                  Découvrir
+                </StyledText>
+              </TouchableOpacity>
+            </StyledView>
+            )}
+          </StyledView>
+        )}
+        itemWidth={screenWidth}
+        autoplay
+        customPagination={({ activeIndex }) => (
+          <StyledView className="absolute bottom-4 left-0 right-0 flex-row justify-center">
+            {images.map((_, i) => (
+              <View
+                key={i}
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 5,
+                  backgroundColor: i === activeIndex ? '#FFEE58' : '#90A4AE',
+                  marginHorizontal: 3,
+                }}
+              />
+            ))}
+          </StyledView>
+        )}
+      />
+    </StyledView>
+  );
 }

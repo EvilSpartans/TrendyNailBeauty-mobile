@@ -1,24 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
-
-const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from '../../models/user';
+import { loginUser, registerUser } from '../../services/auth.service';
 
 // Types
-interface User {
-    id: string;
-    username: string;
-    email: string;
-    token: string;
-    phone: string;
-    gender: string;
-    street: string;
-    zipCode: string;
-    city: string;
-    country: string;
-    roles: string;
-    ordersCount: string;
-}
-
 interface UserState {
     status: string;
     error: string | null;
@@ -33,12 +17,6 @@ interface APIResponse {
     };
 }
 
-interface APIError {
-    message: string;
-    detail?: string;
-}
-
-// Initial State
 const initialState: UserState = {
     status: '',
     error: null,
@@ -53,37 +31,10 @@ const initialState: UserState = {
         zipCode: '',
         city: '',
         country: '',
-        roles: '',
-        ordersCount: '',
+        roles: [],
+        ordersCount: 0,
     },
 };
-
-// Thunks
-export const registerUser = createAsyncThunk<APIResponse, Partial<User>, { rejectValue: APIError }>(
-    'api/signup',
-    async (values, { rejectWithValue }) => {
-        try {
-            const { data } = await axios.post<APIResponse>(`${BASE_URL}/signup`, values);
-            return data;
-        } catch (error) {
-            const axiosError = error as AxiosError<APIError>;
-            return rejectWithValue(axiosError.response?.data || { message: 'Unknown error' });
-        }
-    }
-);
-
-export const loginUser = createAsyncThunk<APIResponse, Partial<User>, { rejectValue: APIError }>(
-    'api/signin',
-    async (values, { rejectWithValue }) => {
-        try {
-            const { data } = await axios.post<APIResponse>(`${BASE_URL}/signin`, values);
-            return data;
-        } catch (error) {
-            const axiosError = error as AxiosError<APIError>;
-            return rejectWithValue(axiosError.response?.data || { message: 'Unknown error' });
-        }
-    }
-);
 
 // Slice
 export const userSlice = createSlice({
@@ -104,8 +55,8 @@ export const userSlice = createSlice({
                 zipCode: '',
                 city: '',
                 country: '',
-                roles: '',
-                ordersCount: '',
+                roles: [],
+                ordersCount: 0,
             };
         },
         changeStatus: (state, action: PayloadAction<string>) => {

@@ -1,5 +1,4 @@
 export interface User {
-  data: User | null;
   id?: string;
   token: string;
   roles: string[];

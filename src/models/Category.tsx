@@ -7,5 +7,6 @@ export interface Category {
   mostOnSale: boolean;
   outOfStock: boolean;
   image: string;
-  product: Product[];
+  products: Product[];
+  productsCount: number;
 }
