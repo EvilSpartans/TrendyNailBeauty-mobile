@@ -5,6 +5,8 @@ import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/Store';
 import { getAllCategories } from '../services/category.service';
+import { NavigationProp, useNavigation } from '@react-navigation/native'; 
+import { Tabnav } from '../models/TabNav';
 
 export default function CategoryComponent(): React.JSX.Element {
   
@@ -13,6 +15,7 @@ export default function CategoryComponent(): React.JSX.Element {
   const status = useSelector((state: RootState) => state.category.status);
   const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
   const imageBaseUrl = `${BASE_URL}/uploads/images`;
+  const navigation = useNavigation<NavigationProp<Tabnav>>();
 
   useEffect(() => {
     if (status === '') { 
@@ -25,7 +28,7 @@ export default function CategoryComponent(): React.JSX.Element {
       data={categories}
       keyExtractor={item => item.id.toString()}
       renderItem={({item}) => (
-        <View style={{marginVertical: 10, marginLeft: 2}}>
+        <View style={{marginVertical: 5, marginLeft: 2}}> 
           <View
             style={{
               flexDirection: 'row',
@@ -33,13 +36,12 @@ export default function CategoryComponent(): React.JSX.Element {
               justifyContent: 'space-between',
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {/* Petit rond avec # */}
               <View
                 style={{
                   width: 20,
                   height: 20,
                   borderRadius: 10,
-                  backgroundColor: '#ccc',
+                  backgroundColor: '#b3c335',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginRight: 10,
@@ -55,12 +57,11 @@ export default function CategoryComponent(): React.JSX.Element {
                 {item.name}
               </Text>
             </View>
-            {/* Bouton "Voir tout >" */}
             <TouchableOpacity style={{marginRight: 15}}>
               <Text
                 style={{
-                  color: '#5EA3CC',
-                  borderColor: '#5EA3CC',
+                  color: '#cf3982',
+                  borderColor: '#cf3982',
                   borderWidth: 1,
                   paddingHorizontal: 10,
                   paddingVertical: 5,
@@ -70,8 +71,7 @@ export default function CategoryComponent(): React.JSX.Element {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* Compteur des produits */}
-          <Text style={{fontSize: 14, color: '#666', marginBottom: 10}}>
+          <Text style={{fontSize: 14, color: '#666', marginBottom: 5}}>
             {item.productsCount} produits
           </Text>
           <FlatList
@@ -79,27 +79,27 @@ export default function CategoryComponent(): React.JSX.Element {
             horizontal
             keyExtractor={product => product.id.toString()}
             renderItem={({item: product}) => (
-              <View
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Article', { product })} 
                 style={{
                   marginLeft: 5,
                   marginRight: 5,
                   alignItems: 'center',
-                  borderWidth: 5,
-                  borderColor: '#fff',
-                  borderRadius: 10,
-                  padding: 10,
-                  backgroundColor: '#B3D4EF',
+                  borderWidth: 0, 
+                  padding: 5,
+                  backgroundColor: 'transparent',
+                  width: 140,
                 }}>
                 <Image
                   source={{uri: `${imageBaseUrl}/${product.image}`}}
-                  style={{width: 100, height: 100, borderRadius: 10}}
+                  style={{width: 130, height: 130, borderRadius: 15}}
+                  resizeMode="cover"
                 />
-                <Text style={{marginTop: 5}}>{product.name}</Text>
-                {/* Affichage du prix */}
-                <Text style={{marginTop: 5, color: '#333', fontWeight: 'bold'}}>
+                <Text style={{marginTop: 5, textAlign: 'center'}}>{product.name}</Text> 
+                <Text style={{marginTop: 5, color: '#333', fontWeight: 'bold', textAlign: 'center'}}>
                   {product.price} €
                 </Text>
-              </View>
+              </TouchableOpacity>
             )}
             showsHorizontalScrollIndicator={false} 
           />
@@ -108,4 +108,3 @@ export default function CategoryComponent(): React.JSX.Element {
     />
   );
 }
-

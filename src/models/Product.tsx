@@ -12,4 +12,5 @@ export interface Product {
   createdAt: Date;
   category: Category;
   orderQuantity: number;
+  quantity: number;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from 'nativewind';
-import { FlatList, View  } from 'react-native';
+import { FlatList, View } from 'react-native';
 import SearchComponent from '../components/SearchComponent';
 import SliderComponent from '../components/SliderComponent';
 import CategoryComponent from '../components/CategoryComponent';
@@ -23,8 +23,9 @@ export default function SearchScreen(): React.JSX.Element {
 
     return (
         <FlatList
+          style={{ backgroundColor: '#fff' }}
           ListHeaderComponent={
-            <StyledView className="flex-1 p-4">
+            <StyledView className="flex-1 p-4 bg-white"> 
               <SearchComponent />
               <SliderComponent images={sliderImages} heightFactor={0.3} styleVariant="discover" />
             </StyledView>
@@ -32,7 +33,7 @@ export default function SearchScreen(): React.JSX.Element {
           data={[{id: 'categories'}]} 
           keyExtractor={(item) => item.id}
           renderItem={() => (
-            <StyledView className="flex-1 p-4">
+            <StyledView className="flex-1 p-4 bg-white">
               <CategoryComponent />
             </StyledView>
           )}

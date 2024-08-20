@@ -34,11 +34,16 @@ export default function SliderComponent({
     <StyledView 
       style={{
         height: screenHeight * heightFactor,
-        backgroundColor: '#B3D4EF', // Même fond bleu que les cartes
-        borderRadius: 10, // Même bord arrondi que les cartes
-        overflow: 'hidden', // Assure que les bords arrondis sont respectés
-        borderColor: '#fff', // Même couleur de contour que les cartes
-        borderWidth: 5, // Largeur de l'encadrement
+        backgroundColor: '#B3D4EF', 
+        borderRadius: 10, 
+        overflow: 'hidden', 
+        borderColor: '#fff',
+        borderWidth: 5, 
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 }, 
+        shadowOpacity: 0.1, 
+        shadowRadius: 5, 
+        elevation: 3, 
       }}
     >
       <Carousel
@@ -77,10 +82,12 @@ export default function SliderComponent({
                   paddingVertical: 10,
                   paddingHorizontal: 20,
                   borderRadius: 5,
+                  borderWidth: 2,
+                  borderColor: '#fff',
                 }}
               >
                 <StyledText className="text-black text-lg font-bold">
-                  Découvrir
+                  Découvrir &rarr;
                 </StyledText>
               </TouchableOpacity>
             </StyledView>
@@ -98,7 +105,7 @@ export default function SliderComponent({
                   width: 10,
                   height: 10,
                   borderRadius: 5,
-                  backgroundColor: i === activeIndex ? '#FFEE58' : '#90A4AE',
+                  backgroundColor: i === activeIndex ? '#cf3982' : '#90A4AE',
                   marginHorizontal: 3,
                 }}
               />

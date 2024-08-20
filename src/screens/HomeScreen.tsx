@@ -39,7 +39,7 @@ export default function HomeScreen(): React.JSX.Element {
 
   if (loading) {
     return (
-      <StyledView className="flex-1 justify-center items-center">
+      <StyledView className="flex-1 justify-center items-center bg-white">
         <ActivityIndicator size="large" color="#7BB8E3" />
       </StyledView>
     );
@@ -47,7 +47,7 @@ export default function HomeScreen(): React.JSX.Element {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <StyledView className="flex-1 p-4">
+      <StyledView className="flex-1 p-4 bg-white">
         <HeaderComponent />
         <SliderComponent images={images} heightFactor={0.7} styleVariant="default" />
       </StyledView>

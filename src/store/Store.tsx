@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import createFilter from "redux-persist-transform-filter";
 import userReducer from "./slices/userSlice";
 import categoryReducer from "./slices/categorySlice";
+import cartReducer from "./slices/cartSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const saveUserOnlyFilter = createFilter("user", ["user"]);
@@ -16,7 +17,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     user: userReducer,
-    category: categoryReducer
+    category: categoryReducer,
+    cart: cartReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
