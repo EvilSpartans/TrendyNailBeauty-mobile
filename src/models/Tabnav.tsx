@@ -6,5 +6,7 @@ export type Tabnav = {
   Panier: undefined;
   Profil: undefined;
   Commande: undefined;
+  Connexion: undefined;
+  Inscription: undefined;
   Article: { product: Product };
 };

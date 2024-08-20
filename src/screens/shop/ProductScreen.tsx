@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Text, View, Image, Button, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { WebView } from 'react-native-webview';
-import { AppDispatch } from '../store/Store';
-import { addItemToCart } from '../store/slices/cartSlice';
-import { Tabnav } from '../models/TabNav';
+import { AppDispatch, RootState } from '../../store/Store';
+import { addItemToCart, selectIsItemInCart } from '../../store/slices/cartSlice';
+import { Tabnav } from '../../models/TabNav';
+import Toast from 'react-native-toast-message';
 
 const { height: screenHeight } = Dimensions.get('window');
 
@@ -13,6 +14,7 @@ export default function ProductScreen(): React.JSX.Element {
     const route = useRoute<RouteProp<Tabnav, 'Article'>>();
     const { product } = route.params;
     const dispatch = useDispatch<AppDispatch>();
+    const isItemInCart = useSelector((state: RootState) => selectIsItemInCart(state, product.id));
     const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
     const imageBaseUrl = `${BASE_URL}/uploads/images`;
 
@@ -20,6 +22,11 @@ export default function ProductScreen(): React.JSX.Element {
 
     const handleAddToCart = () => {
         dispatch(addItemToCart({ ...product, quantity: 1 }));
+        Toast.show({
+            type: 'success',
+            text1: 'Ajouté au panier',
+            text2: `${product.name} a été ajouté à votre panier.`,
+        });
     };
 
     return (
@@ -59,22 +66,25 @@ export default function ProductScreen(): React.JSX.Element {
                     </View>
                 )}
                 {activeTab === 'Description' && (
-                <WebView
-                    originWhitelist={['*']}
-                    source={{ html: `<html><body style="font-size: 40px; line-height: 1.5;">${product.description}</body></html>` }}
-                    style={{ height: 59.2 }}
+                    <WebView
+                        originWhitelist={['*']}
+                        source={{ html: `<html><body style="font-size: 40px; line-height: 1.5;">${product.description}</body></html>` }}
+                        style={{ height: 59.2 }}
                     />
                 )}
             </View>
 
             {/* Bouton pour ajouter au panier */}
-            <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                <Button
-                    title="Ajouter au panier"
-                    onPress={handleAddToCart}
-                    color="#cf3982"
-                />
-            </View>
+            {!isItemInCart && (
+                <View style={{ alignItems: 'center', marginVertical: 20 }}>
+                    <Button
+                        title="Ajouter au panier"
+                        onPress={handleAddToCart}
+                        color="#cf3982"
+                    />
+                </View>
+            )}
+            <Toast />
         </ScrollView>
     );
 }

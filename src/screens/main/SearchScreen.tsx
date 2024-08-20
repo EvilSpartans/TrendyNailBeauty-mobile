@@ -1,11 +1,11 @@
 import React from 'react';
 import { styled } from 'nativewind';
 import { FlatList, View } from 'react-native';
-import SearchComponent from '../components/SearchComponent';
-import SliderComponent from '../components/SliderComponent';
-import CategoryComponent from '../components/CategoryComponent';
+import SearchComponent from '../../components/main/SearchComponent';
+import SliderComponent from '../../components/main/SliderComponent';
+import CategoryComponent from '../../components/shop/CategoryComponent';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store/Store';
+import { RootState } from '../../store/Store';
 
 const StyledView = styled(View);
 
@@ -25,8 +25,10 @@ export default function SearchScreen(): React.JSX.Element {
         <FlatList
           style={{ backgroundColor: '#fff' }}
           ListHeaderComponent={
-            <StyledView className="flex-1 p-4 bg-white"> 
+            <StyledView className="flex-1 bg-white"> 
+            <StyledView className="flex-1 p-4 bg-white">
               <SearchComponent />
+            </StyledView>
               <SliderComponent images={sliderImages} heightFactor={0.3} styleVariant="discover" />
             </StyledView>
           }

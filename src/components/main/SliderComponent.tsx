@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Image, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Carousel } from 'react-native-basic-carousel';
@@ -30,22 +28,24 @@ export default function SliderComponent({
 
   const BASE_URL = process.env.REACT_APP_BASE_URL || 'https://default-url.com';
 
+  const containerStyle: any = {
+    height: screenHeight * heightFactor,
+    overflow: 'hidden', 
+    ...(styleVariant === 'default' && {
+      backgroundColor: '#B3D4EF',
+      // borderColor: '#fff',
+      // borderRadius: 10,
+      // borderWidth: 5,
+      // shadowColor: '#000',
+      // shadowOffset: { width: 0, height: 2 },
+      // shadowOpacity: 0.1,
+      // shadowRadius: 5,
+      // elevation: 3,
+    }),
+  };
+
   return (
-    <StyledView 
-      style={{
-        height: screenHeight * heightFactor,
-        backgroundColor: '#B3D4EF', 
-        borderRadius: 10, 
-        overflow: 'hidden', 
-        borderColor: '#fff',
-        borderWidth: 5, 
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 }, 
-        shadowOpacity: 0.1, 
-        shadowRadius: 5, 
-        elevation: 3, 
-      }}
-    >
+    <StyledView style={containerStyle}>
       <Carousel
         data={images}
         renderItem={({ item }) => (
@@ -58,7 +58,7 @@ export default function SliderComponent({
             />
             {styleVariant === 'default' ? (
               <StyledView
-                className="absolute bottom-8 left-4 p-2 rounded"
+                className="absolute bottom-8 left-4 p-2"
                 style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
               >
                 <StyledText className="text-white text-lg">
@@ -69,28 +69,28 @@ export default function SliderComponent({
                 </StyledText>
               </StyledView>
             ) : (
-            <StyledView
-              className="absolute left-4 justify-center" 
-              style={{ height: '100%' }} 
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  const url = `${BASE_URL}/category/${item.id}`;
-                }}
-                style={{
-                  backgroundColor: '#FFEE58',
-                  paddingVertical: 10,
-                  paddingHorizontal: 20,
-                  borderRadius: 5,
-                  borderWidth: 2,
-                  borderColor: '#fff',
-                }}
+              <StyledView
+                className="absolute left-4 justify-center"
+                style={{ height: '100%' }}
               >
-                <StyledText className="text-black text-lg font-bold">
-                  Découvrir &rarr;
-                </StyledText>
-              </TouchableOpacity>
-            </StyledView>
+                <TouchableOpacity
+                  onPress={() => {
+                    const url = `${BASE_URL}/category/${item.id}`;
+                  }}
+                  style={{
+                    marginRight: 15,
+                    borderColor: '#cf3982',
+                    borderWidth: 1,
+                    paddingHorizontal: 10,
+                    paddingVertical: 5,
+                    borderRadius: 10,
+                  }}
+                >
+                  <StyledText className="text-black text-sm" style={{ color: '#cf3982' }}>
+                    Découvrir &rarr;
+                  </StyledText>
+                </TouchableOpacity>
+              </StyledView>
             )}
           </StyledView>
         )}

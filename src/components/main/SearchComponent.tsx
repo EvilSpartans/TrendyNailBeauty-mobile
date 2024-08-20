@@ -12,7 +12,6 @@ export default function SearchComponent(): React.JSX.Element {
         borderWidth: 1,
         borderRadius: 20,  
         paddingHorizontal: 10,
-        marginBottom: 20,
         backgroundColor: '#f8f8f8', 
       }}>
       <TextInput

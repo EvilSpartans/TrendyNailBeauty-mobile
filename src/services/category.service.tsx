@@ -16,7 +16,7 @@ export const getAllCategories = createAsyncThunk<
 >('api/categories', async (params, {rejectWithValue}) => {
   try {
     const url = `${BASE_URL}/categories`;
-    console.log('API Route:', url);
+    // console.log('API Route:', url);
     const {data} = await axios.get<Category[]>(url, {params}); 
     return data; 
   } catch (error) {

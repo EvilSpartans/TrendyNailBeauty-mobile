@@ -3,10 +3,10 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store/Store';
-import { getAllCategories } from '../services/category.service';
+import { AppDispatch, RootState } from '../../store/Store';
+import { getAllCategories } from '../../services/category.service';
 import { NavigationProp, useNavigation } from '@react-navigation/native'; 
-import { Tabnav } from '../models/TabNav';
+import { Tabnav } from '../../models/TabNav';
 
 export default function CategoryComponent(): React.JSX.Element {
   
@@ -41,7 +41,7 @@ export default function CategoryComponent(): React.JSX.Element {
                   width: 20,
                   height: 20,
                   borderRadius: 10,
-                  backgroundColor: '#b3c335',
+                  backgroundColor: '#DAA520',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginRight: 10,
@@ -60,8 +60,8 @@ export default function CategoryComponent(): React.JSX.Element {
             <TouchableOpacity style={{marginRight: 15}}>
               <Text
                 style={{
-                  color: '#cf3982',
-                  borderColor: '#cf3982',
+                  color: '#DAA520',
+                  borderColor: '#DAA520',
                   borderWidth: 1,
                   paddingHorizontal: 10,
                   paddingVertical: 5,

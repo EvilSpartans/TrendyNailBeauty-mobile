@@ -1,10 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/main/HomeScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SearchScreen from '../screens/SearchScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import CartScreen from '../screens/CartScreen';
+import SearchScreen from '../screens/main/SearchScreen';
+import ProfileScreen from '../screens/main/ProfileScreen';
+import CartScreen from '../screens/main/CartScreen';
 import { Tabnav } from '../models/TabNav';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
@@ -79,6 +79,7 @@ function TabNavigator(): React.JSX.Element {
         component={ProfileScreen} 
         options={{ 
           headerShown: false,
+          title: 'Mon compte',
           tabBarIcon: ({ color, size }) => (
             <Icon name="user" color={color} size={size} />
           ),

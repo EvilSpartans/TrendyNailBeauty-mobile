@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'nativewind';
-import { ScrollView, View, ActivityIndicator } from 'react-native';
-import SliderComponent from '../components/SliderComponent';
-import HeaderComponent from '../components/HeaderComponent';
+import { FlatList, View, ActivityIndicator } from 'react-native';
+import SliderComponent from '../../components/main/SliderComponent';
+import HeaderComponent from '../../components/main/LogoComponent';
+import BestProductsComponent from '../../components/shop/BestProductsComponent';
+import LastProductsComponent from '../../components/shop/LastProductsComponent';
+import ContactComponent from '../../components/main/ContactComponent';
 
 const StyledView = styled(View);
 
@@ -46,11 +49,22 @@ export default function HomeScreen(): React.JSX.Element {
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <StyledView className="flex-1 p-4 bg-white">
-        <HeaderComponent />
-        <SliderComponent images={images} heightFactor={0.7} styleVariant="default" />
-      </StyledView>
-    </ScrollView>
+    <FlatList
+      style={{ backgroundColor: '#fff' }}
+      ListHeaderComponent={
+        <>
+          <SliderComponent images={images} heightFactor={0.75} styleVariant="default" />
+        </>
+      }
+      data={[{ id: 'best-products' }]}
+      keyExtractor={(item) => item.id}
+      renderItem={() => (
+        <StyledView className="flex-1 p-4 bg-white">
+          <BestProductsComponent />
+          <LastProductsComponent />
+          <ContactComponent />
+        </StyledView>
+      )}
+    />
   );
 }

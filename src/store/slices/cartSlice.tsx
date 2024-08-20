@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '../../models/Product';
+import { RootState } from '../Store';
 
 // Types
 interface CartState {
@@ -70,6 +71,10 @@ export const cartSlice = createSlice({
     extraReducers: (builder) => {
     },
 });
+
+export const selectIsItemInCart = (state: RootState, itemId: string) => {
+    return state.cart.items.some(item => item.id === itemId);
+};
 
 export const {
     addItemToCart,

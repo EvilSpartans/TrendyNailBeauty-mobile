@@ -6,7 +6,7 @@ import { styled } from 'nativewind';
 const StyledView = styled(View);
 const StyledImage = styled(Image);
 
-export default function HeaderComponent(): React.JSX.Element {
+export default function LogoComponent(): React.JSX.Element {
   return (
     <StyledView className="flex items-center py-1">
       <StyledImage
