@@ -4,19 +4,36 @@ import { Formik } from 'formik';
 import { registerSchema } from './Validation';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Tabnav } from '../models/TabNav';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store/Store';
+import { changeStatus } from '../store/slices/userSlice';
+import { registerUser } from '../services/auth.service';
+import Toast from 'react-native-toast-message';
 
 export default function RegisterForm() {
 
   const navigation = useNavigation<NavigationProp<Tabnav>>();
   const [isChecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onSubmit = async (data: any) => {
+    dispatch(changeStatus("loading"));
+    let res = await dispatch(registerUser({ ...data }));
+    if (res.payload && 'token' in res.payload) {
+      Toast.show({
+        type: 'success',
+        text1: 'Inscription réussie',
+        text2: 'Vous êtes maintenant inscrit(e).',
+      });
+      navigation.navigate('Accueil')
+    }
+  };
 
   return (
     <Formik
       initialValues={{ username: '', email: '', password: '', confirmPassword: '', terms: false }}
       validationSchema={registerSchema}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      onSubmit={onSubmit}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
         <View style={{ paddingHorizontal: 40, paddingVertical: 20, flex: 1, justifyContent: 'center' }}>
@@ -161,7 +178,7 @@ export default function RegisterForm() {
 
           {/* Texte pour la connexion */}
           <TouchableOpacity onPress={() => navigation.navigate('Connexion')}>
-            <Text style={{ fontSize: 16, color: '#333', textAlign: 'center', marginTop: 20 }}>
+            <Text style={{ fontSize: 16, color: '#333', textAlign: 'center', marginTop: 30 }}>
               Déjà un compte ? <Text style={{ color: '#cf3982', fontWeight: 'bold' }}>Se connecter</Text>
             </Text>
           </TouchableOpacity>

@@ -4,18 +4,43 @@ import { Formik } from 'formik';
 import { loginSchema } from './Validation';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Tabnav } from '../models/TabNav';
+import { loginUser } from '../services/auth.service';
+import { useDispatch } from 'react-redux';
+import { changeStatus } from '../store/slices/userSlice';
+import { User } from '../models/user';
+import { AppDispatch } from '../store/Store';
+import Toast from 'react-native-toast-message';
 
 export default function LoginForm() {
 
     const navigation = useNavigation<NavigationProp<Tabnav>>();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const onSubmit = async (data: Partial<User>) => {
+      dispatch(changeStatus("loading"));
+      let res = await dispatch(loginUser({ ...data }));
+      // console.log(res);
+      if (res.payload && 'token' in res.payload) {
+        Toast.show({
+          type: 'success',
+          text1: 'Connexion réussie',
+          text2: 'Vous êtes maintenant connecté(e).',
+        });
+        navigation.navigate('Accueil')
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Identifiants invalides',
+          text2: 'Le pseudo ou le mot de passe que vous avez entré est incorrect.',
+        });
+      }
+    };
 
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={loginSchema}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      onSubmit={onSubmit}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
         <View style={{ paddingHorizontal: 40, paddingVertical: 20, flex: 1, justifyContent: 'center' }}>
@@ -78,7 +103,7 @@ export default function LoginForm() {
 
           {/* Texte pour l'inscription */}
           <TouchableOpacity onPress={() => navigation.navigate('Inscription')}>
-            <Text style={{ fontSize: 16, color: '#333', textAlign: 'center', marginTop: 20 }}>
+            <Text style={{ fontSize: 16, color: '#333', textAlign: 'center', marginTop: 30 }}>
               Pas encore de compte ? <Text style={{ color: '#cf3982', fontWeight: 'bold' }}>Inscription</Text>
             </Text>
           </TouchableOpacity>

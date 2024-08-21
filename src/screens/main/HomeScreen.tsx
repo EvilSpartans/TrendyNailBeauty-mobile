@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { styled } from 'nativewind';
 import { FlatList, View, ActivityIndicator } from 'react-native';
 import SliderComponent from '../../components/main/SliderComponent';
-import HeaderComponent from '../../components/main/LogoComponent';
 import BestProductsComponent from '../../components/shop/BestProductsComponent';
 import LastProductsComponent from '../../components/shop/LastProductsComponent';
 import ContactComponent from '../../components/main/ContactComponent';

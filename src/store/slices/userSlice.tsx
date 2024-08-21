@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../models/user';
-import { loginUser, registerUser } from '../../services/auth.service';
+import { loginUser, registerUser, updateUser } from '../../services/auth.service';
 
 // Types
 interface UserState {
@@ -9,12 +9,10 @@ interface UserState {
     user: User;
 }
 
-interface APIResponse {
-    data: {
-        user: User;
-        token: string;
-        message?: string;
-    };
+export interface APIResponse {
+    token: string;
+    message: string;
+    data: User;
 }
 
 const initialState: UserState = {
@@ -72,8 +70,8 @@ export const userSlice = createSlice({
                 state.status = 'succeeded';
                 state.error = null;
                 state.user = {
-                    ...action.payload.data.user,
-                    token: action.payload.data.token,
+                    ...action.payload.data,
+                    token: action.payload.token,
                 };
             })
             .addCase(registerUser.rejected, (state, action) => {
@@ -84,16 +82,33 @@ export const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<APIResponse>) => {
+                // console.log('Payload:', action.payload);
                 state.status = 'succeeded';
-                state.error = action.payload.data.message || null;
+                state.error = action.payload.message || null;
                 state.user = {
-                    ...action.payload.data.user,
-                    token: action.payload.data.token,
+                    ...action.payload.data,
+                    token: action.payload.token,
                 };
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload?.message || 'Failed to login';
+            })
+            .addCase(updateUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
+                state.status = 'succeeded';
+                state.error = null;
+                state.user = {
+                    ...state.user,
+                    ...action.payload,
+                };
+                // console.log("État de l'utilisateur mis à jour :", state.user);
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload?.message || 'Failed to update user';
             });
     },
 });
