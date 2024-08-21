@@ -1,7 +1,7 @@
 import { styled } from 'nativewind';
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import RegisterForm from '../forms/registerForm';
+import RegisterForm from '../../forms/RegisterForm';
 
 const StyledView = styled(View);
 
