@@ -48,5 +48,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<!-- Ajoutez ceci pour inclure les polices -->
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.ttf</string>
+		<!-- Ajoutez ici d'autres polices si nécessaire -->
+	</array>
+
 </dict>
 </plist>

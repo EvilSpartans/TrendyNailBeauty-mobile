@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from 'nativewind';
-import { FlatList, View } from 'react-native';
+import { FlatList, SafeAreaView, View } from 'react-native';
 import SearchComponent from '../../components/main/SearchComponent';
 import SliderComponent from '../../components/main/SliderComponent';
 import CategoryComponent from '../../components/shop/CategoryComponent';
@@ -22,23 +22,29 @@ export default function SearchScreen(): React.JSX.Element {
     }));
 
     return (
+      <SafeAreaView>
         <FlatList
-          style={{ backgroundColor: '#fff' }}
+          style={{backgroundColor: '#fff'}}
           ListHeaderComponent={
-            <StyledView className="flex-1 bg-white"> 
-            <StyledView className="flex-1 p-4 bg-white">
-              <SearchComponent />
-            </StyledView>
-              <SliderComponent images={sliderImages} heightFactor={0.3} styleVariant="discover" />
+            <StyledView className="flex-1 bg-white">
+              <StyledView className="flex-1 p-4 bg-white">
+                <SearchComponent />
+              </StyledView>
+              <SliderComponent
+                images={sliderImages}
+                heightFactor={0.3}
+                styleVariant="discover"
+              />
             </StyledView>
           }
-          data={[{id: 'categories'}]} 
-          keyExtractor={(item) => item.id}
+          data={[{id: 'categories'}]}
+          keyExtractor={item => item.id}
           renderItem={() => (
             <StyledView className="flex-1 p-4 bg-white">
               <CategoryComponent />
             </StyledView>
           )}
         />
-      );
+      </SafeAreaView>
+    );
 }

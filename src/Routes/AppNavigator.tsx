@@ -24,7 +24,7 @@ function AppNavigator(): React.JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false, headerTitle: '' }} />
         <Stack.Screen name="Article" component={ProductScreen} />
         <Stack.Screen name="Contact" component={ContactScreen} options={{ title: 'Nous contacter' }} />
 

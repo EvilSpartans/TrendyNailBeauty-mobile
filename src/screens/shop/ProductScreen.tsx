@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Image, Button, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, Image, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { WebView } from 'react-native-webview';
@@ -76,13 +76,19 @@ export default function ProductScreen(): React.JSX.Element {
 
             {/* Bouton pour ajouter au panier */}
             {!isItemInCart && (
-                <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                    <Button
-                        title="Ajouter au panier"
-                        onPress={handleAddToCart}
-                        color="#cf3982"
-                    />
-                </View>
+                <TouchableOpacity
+                    onPress={handleAddToCart}
+                    style={{
+                    backgroundColor: '#cf3982',
+                    padding: 20,
+                    borderRadius: 10,
+                    alignItems: 'center',
+                    marginVertical: 20, 
+                    marginRight: 20,
+                    marginLeft: 20
+                }}>
+            <Text style={{color: '#fff', fontSize: 20}}>Ajouter au panier</Text>
+          </TouchableOpacity>
             )}
             <Toast />
         </ScrollView>
