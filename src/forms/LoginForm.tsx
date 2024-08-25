@@ -98,7 +98,7 @@ export default function LoginForm() {
               marginTop: 30,
             }}
           >
-            <Text style={{ color: '#fff', fontSize: 20 }}>Connection</Text>
+            <Text style={{ color: '#fff', fontSize: 20 }}>Connexion</Text>
           </TouchableOpacity>
 
           {/* Texte pour l'inscription */}
