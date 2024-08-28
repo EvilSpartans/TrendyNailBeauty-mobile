@@ -24,7 +24,7 @@ export default function UpdatePasswordForm(): React.JSX.Element {
     const onSubmit = async (values: any) => {
         const { oldPassword, newPassword, confirmPassword } = values; 
         const token = user.token;
-        console.log(token);
+        // console.log(token);
         const res = await dispatch(updatePassword({ oldPassword, newPassword, confirmPassword, token }));
         // console.log(res);
         navigation.navigate('Profil')

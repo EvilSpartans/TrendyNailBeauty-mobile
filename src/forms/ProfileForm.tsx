@@ -23,7 +23,7 @@ export default function ProfileForm() {
 
     const onSubmit = async (values: any) => {
         const res = await dispatch(updateUser({ id: user.id, values: values }));
-        console.log(res)
+        // console.log(res)
         Toast.show({
             type: 'success',
             text1: 'Profil mis à jour',

@@ -22,7 +22,7 @@ export default function AddressForm() {
 
     const onSubmit = async (values: any) => {
         const res = await dispatch(updateUser({ id: user.id, values })); // Dispatch de l'action pour mettre à jour l'utilisateur
-        console.log(res);
+        // console.log(res);
 
         if (res.type === 'api/profile/fulfilled') {
             Toast.show({

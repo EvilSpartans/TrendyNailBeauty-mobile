@@ -13,5 +13,7 @@ export type Tabnav = {
   userAddress: undefined;
   userOrders: undefined;
   updatePassword: undefined;
+  ResetPassword: undefined;
+  AllProducts: { [key: string]: any };
   Article: { product: Product };
 };

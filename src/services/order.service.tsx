@@ -26,8 +26,7 @@ export const getOrders = createAsyncThunk<Order[], string, { rejectValue: APIErr
     }
 );
 
-export const createOrder = createAsyncThunk<Partial<Order>, { token: string; values: Partial<Order>; }, { rejectValue: APIError }>(
-    'api/order',
+export const createOrder = createAsyncThunk<Partial<Order>, { token: string; values: Partial<Order> & { productIds: string[] }; }, { rejectValue: APIError }>(    'api/order',
     async ({ token, values }, { rejectWithValue }) => {
         try {
             const { data } = await axios.post(`${BASE_URL}/order/create`, values, {

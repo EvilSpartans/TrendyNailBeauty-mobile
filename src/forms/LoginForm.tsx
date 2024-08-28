@@ -107,6 +107,17 @@ export default function LoginForm() {
               Pas encore de compte ? <Text style={{ color: '#cf3982', fontWeight: 'bold' }}>Inscription</Text>
             </Text>
           </TouchableOpacity>
+          <View style={{
+              borderBottomColor: '#ccc', 
+              borderBottomWidth: 1, 
+              marginVertical: 20, 
+              marginHorizontal: 30
+          }} />
+          <TouchableOpacity onPress={() => navigation.navigate('ResetPassword')}>
+            <Text style={{ fontSize: 16, color: '#333', textAlign: 'center' }}>
+              Mot de passe oublié ? <Text style={{ color: '#cf3982', fontWeight: 'bold' }}>Réinitialiser</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

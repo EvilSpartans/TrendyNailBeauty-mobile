@@ -24,7 +24,7 @@ export default function LastProductsComponent(): React.JSX.Element {
       try {
         const resultAction = await dispatch(getAllProducts({ sortBy: 'price_desc' }));
         const data = unwrapResult(resultAction);
-        setProducts(data.products.slice(0, 7));
+        setProducts(data.products.slice(0, 4));
       } catch (error) {
         console.error('Erreur lors de la récupération des produits:', error);
       } finally {
@@ -35,48 +35,47 @@ export default function LastProductsComponent(): React.JSX.Element {
   }, [dispatch]);
 
   return (
-    <View style={{ paddingVertical: 16 }}>
+    <View style={{ paddingVertical: 50, backgroundColor: '#fafafa', borderRadius: 20 }}>
       {/* Titre principal centré */}
       <TitleComponent mainText='À découvrir' subText="Nouvelles tendances" />
 
-      {/* Liste horizontale des produits */}
+      {/* Liste des produits en grille */}
       <FlatList
-        key={'horizontal'} 
+        key={'vertical'} 
         data={products}
-        horizontal={true} 
-        contentContainerStyle={{ paddingHorizontal: 16 }} 
+        numColumns={2} 
+        contentContainerStyle={{ paddingHorizontal: 10 }} 
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() => navigation.navigate('Article', { product: item })} 
             style={{
-              marginRight: 10,
-              marginVertical: 10, 
+              flex: 1,
+              margin: 10, 
               alignItems: 'center',
-              padding: 10,
+              padding: 14,
               backgroundColor: '#fff',
-              borderRadius: 10,
+              borderRadius: 20,
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.1,
-              shadowRadius: 4,
-              elevation: 3,
-              width: 140,
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.2,
+              shadowRadius: 10,
+              elevation: 6,
             }}>
             <Image
               source={{uri: `${imageBaseUrl}/${item.image}`}}
-              style={{ width: 120, height: 120, borderRadius: 10 }} 
+              style={{ width: 160, height: 160, borderRadius: 15, marginBottom: 12 }} 
               resizeMode="cover"
             />
-            <Text style={{ marginTop: 5, textAlign: 'center', color: '#333', fontWeight: 'bold' }}>
+            <Text style={{ marginTop: 8, textAlign: 'center', color: '#333', fontWeight: 'bold', fontSize: 16 }}>
               {item.name}
             </Text>
-            <Text style={{ marginTop: 5, color: '#DAA520', fontWeight: 'bold', textAlign: 'center' }}>
+            <Text style={{ marginTop: 6, color: '#DAA520', fontWeight: 'bold', textAlign: 'center', fontSize: 16 }}>
               {item.price} €
             </Text>
           </TouchableOpacity>
         )}
-        showsHorizontalScrollIndicator={false} 
+        showsVerticalScrollIndicator={false} 
       />
     </View>
   );

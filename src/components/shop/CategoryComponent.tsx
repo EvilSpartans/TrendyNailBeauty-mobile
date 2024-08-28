@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/Store';
 import { getAllCategories } from '../../services/category.service';
@@ -12,7 +10,7 @@ export default function CategoryComponent(): React.JSX.Element {
   
   const dispatch = useDispatch<AppDispatch>();
   const categories = useSelector((state: RootState) => state.category.categories);
-  const status = useSelector((state: RootState) => state.category.status);
+  const status = useSelector((state: RootState) => state.category.status); // 'loading', 'succeeded', 'failed'
   const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
   const imageBaseUrl = `${BASE_URL}/uploads/images`;
   const navigation = useNavigation<NavigationProp<Tabnav>>();
@@ -22,6 +20,15 @@ export default function CategoryComponent(): React.JSX.Element {
       dispatch(getAllCategories({}));
     }
   }, [dispatch, status]);
+
+  // Affiche le loader si les catégories sont en cours de chargement
+  if (status === 'loading') {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#DAA520" />
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -57,7 +64,9 @@ export default function CategoryComponent(): React.JSX.Element {
                 {item.name}
               </Text>
             </View>
-            <TouchableOpacity style={{marginRight: 15}}>
+            <TouchableOpacity 
+              style={{marginRight: 15}} 
+              onPress={() => navigation.navigate('AllProducts', { category: item.name })}>
               <Text
                 style={{
                   color: '#DAA520',

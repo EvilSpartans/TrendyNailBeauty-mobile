@@ -1,14 +1,16 @@
 import { styled } from 'nativewind';
 import React from 'react';
-import { Text, View  } from 'react-native';
+import { ScrollView, View  } from 'react-native';
+import OrderForm from '../../forms/OrderForm';
 
 const StyledView = styled(View)
-const StyledText = styled(Text)
 
 export default function CheckoutScreen(): React.JSX.Element {
     return (
-    <StyledView className="flex-1 items-center bg-white justify-center">
-        <StyledText className="text-slate-800">Page de commande 🎉</StyledText>
-    </StyledView>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <StyledView className="flex-1 items-center bg-white justify-center">
+          <OrderForm />
+        </StyledView>
+      </ScrollView>
   )
 }

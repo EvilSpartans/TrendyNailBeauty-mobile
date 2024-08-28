@@ -1,38 +1,27 @@
 import { styled } from 'nativewind';
-import React, { useEffect, useState } from 'react';
-import { Text, View, FlatList, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, View, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/Store';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Tabnav } from '../../models/TabNav';
 import { getOrders } from '../../services/order.service';
-import { Order } from '../../models/order'; 
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
 export default function UserOrdersScreen(): React.JSX.Element {
+
     const user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch<AppDispatch>();
     const navigation = useNavigation<NavigationProp<Tabnav>>();
-    
-    const [orders, setOrders] = useState<Order[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const { orders, status, error } = useSelector((state: RootState) => state.order);
 
-    const fetchOrders = async () => {
-        try {
-            const token = user.token;
-            const res = await dispatch(getOrders(token));
-            if (getOrders.fulfilled.match(res)) {
-                setOrders(res.payload);
-            }
-        } catch (err) {
-            setError('Une erreur inattendue est survenue.');
-        } finally {
-            setLoading(false);
+    useEffect(() => {
+        if (user?.token) {
+            dispatch(getOrders(user.token));
         }
-    };
+    }, [dispatch, user]);
 
     type OrderStatus = "Pending" | "Shipped" | "Cancelled" | "Refund" | "Received";
 
@@ -48,11 +37,7 @@ export default function UserOrdersScreen(): React.JSX.Element {
         return statusLabels[status] || status;
     };
 
-    useEffect(() => {
-        fetchOrders();
-    }, []);
-
-    if (error) {
+    if (status === 'failed') {
         return (
             <StyledView className="flex-1 items-center bg-white justify-center">
                 <StyledText className="text-red-600">{error}</StyledText>
@@ -60,7 +45,7 @@ export default function UserOrdersScreen(): React.JSX.Element {
         );
     }
 
-    if (loading) {
+    if (status === 'loading') {
         return (
             <StyledView className="flex-1 items-center bg-white justify-center">
                 <ActivityIndicator size="large" color="#cf3982" />

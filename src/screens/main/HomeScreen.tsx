@@ -5,6 +5,7 @@ import SliderComponent from '../../components/main/SliderComponent';
 import BestProductsComponent from '../../components/shop/BestProductsComponent';
 import LastProductsComponent from '../../components/shop/LastProductsComponent';
 import ContactComponent from '../../components/main/ContactComponent';
+import FamousProductsComponent from '../../components/shop/FamousProductsComponent';
 
 const StyledView = styled(View);
 
@@ -60,6 +61,7 @@ export default function HomeScreen(): React.JSX.Element {
       renderItem={() => (
         <StyledView className="flex-1 p-4 bg-white">
           <BestProductsComponent />
+          <FamousProductsComponent />
           <LastProductsComponent />
           <ContactComponent />
         </StyledView>

@@ -5,6 +5,7 @@ import userReducer from "./slices/userSlice";
 import categoryReducer from "./slices/categorySlice";
 import productReducer from "./slices/productSlice";
 import cartReducer from "./slices/cartSlice";
+import orderReducer from "./slices/orderSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const saveUserOnlyFilter = createFilter("user", ["user"]);
@@ -12,7 +13,7 @@ const saveUserOnlyFilter = createFilter("user", ["user"]);
 const persistConfig = {
     key: "root", 
     storage: AsyncStorage,
-    whitelist: ["user"], 
+    whitelist: ["user", "cart"], 
     transforms: [saveUserOnlyFilter],
 };
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     category: categoryReducer,
     product: productReducer,
+    order: orderReducer,
     cart: cartReducer
 });
 

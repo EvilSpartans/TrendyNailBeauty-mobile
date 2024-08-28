@@ -4,18 +4,41 @@ import { Formik } from 'formik';
 import { contactSchema } from './Validation';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Tabnav } from '../models/TabNav';
+import { AppDispatch } from '../store/Store';
+import { useDispatch } from 'react-redux';
+import Toast from 'react-native-toast-message';
+import { Contact } from '../models/Contact';
+import { createContact } from '../services/contact.service';
 
 export default function ContactForm() {
 
     const navigation = useNavigation<NavigationProp<Tabnav>>();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const onSubmit = async (values: Partial<Contact>) => {
+      let res = await dispatch(createContact({ values }));
+
+      if (res.payload && 'email' in res.payload) { 
+          Toast.show({
+              type: 'success',
+              text1: 'Message envoyé',
+              text2: 'Votre message a été envoyé avec succès.',
+          });
+          navigation.navigate('Accueil');
+      } else {
+          Toast.show({
+              type: 'error',
+              text1: 'Erreur d\'envoi',
+              text2: 'Une erreur est survenue lors de l\'envoi de votre message.',
+          });
+      }
+  };
 
   return (
     <Formik
       initialValues={{ email: '', subject: '', content: '' }}
       validationSchema={contactSchema}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      onSubmit={onSubmit}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
         <View style={{ paddingHorizontal: 40, paddingVertical: 20, flex: 1, justifyContent: 'center' }}>

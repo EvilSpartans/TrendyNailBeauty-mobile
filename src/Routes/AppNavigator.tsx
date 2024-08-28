@@ -13,6 +13,8 @@ import UserInfoScreen from '../screens/account/UserInfoScreen';
 import UserAdressScreen from '../screens/account/UserAddressScreen';
 import UserOrdersScreen from '../screens/account/UserOrdersScreen';
 import UserPasswordScreen from '../screens/account/UserPasswordScreen';
+import ProductsScreen from '../screens/shop/ProductsScreen';
+import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,12 +27,17 @@ function AppNavigator(): React.JSX.Element {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false, headerTitle: '' }} />
-        <Stack.Screen name="Article" component={ProductScreen} />
+        <Stack.Screen name="Article" component={ProductScreen} options={{ title: 'Article' }} />
+        <Stack.Screen name="AllProducts" component={ProductsScreen} options={{ title: 'Articles' }} />
         <Stack.Screen name="Contact" component={ContactScreen} options={{ title: 'Nous contacter' }} />
+        <Stack.Screen 
+          name="Commande" 
+          component={isLoggedIn ? CheckoutScreen : LoginScreen} 
+          options={{ title: isLoggedIn ? 'Commande' : 'Mon compte' }} 
+        />
 
         {isLoggedIn ? (
           <>
-            <Stack.Screen name="Commande" component={CheckoutScreen} />
             <Stack.Screen name="userInfo" component={UserInfoScreen} options={{ title: 'Mes informations' }} />
             <Stack.Screen name="userAddress" component={UserAdressScreen} options={{ title: 'Mon adresse' }} />
             <Stack.Screen name="userOrders" component={UserOrdersScreen} options={{ title: 'Mes commandes' }} />
@@ -40,6 +47,7 @@ function AppNavigator(): React.JSX.Element {
           <>
             <Stack.Screen name="Connexion" component={LoginScreen} options={{ title: 'Mon compte' }} />
             <Stack.Screen name="Inscription" component={RegisterScreen} options={{ title: 'Mon compte' }} />
+            <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ title: 'Mot de passe oublié' }} />
           </>
         )}
       </Stack.Navigator>

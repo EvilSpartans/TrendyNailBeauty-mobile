@@ -15,7 +15,7 @@ export default function ContactComponent(): React.JSX.Element {
 
   return (
     <StyledView className="flex-1 bg-white">
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingVertical: 50 }}>
         
         {/* Titre principal */}
         <TitleComponent mainText='Nous contacter' subText="Besoin d'aide ?" />

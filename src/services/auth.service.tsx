@@ -87,16 +87,32 @@ export const updatePassword = createAsyncThunk<APIResponse, { oldPassword: strin
     }
 );
 
+export const sendResetPasswordRequest = createAsyncThunk<APIResponse, { email: string }, { rejectValue: APIError }>(
+    'api/resetPassword',
+    async ({ email }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.post<APIResponse>(
+                `${BASE_URL}/resetPassword`, 
+                { email } 
+            );
+            return data;
+        } catch (error) {
+            const axiosError = error as AxiosError<APIError>;
+            // console.error('sendResetPasswordRequest error:', axiosError.response?.data);
+            return rejectWithValue(axiosError.response?.data || { message: 'Unknown error' });
+        }
+    }
+);
+
 export const resetPassword = createAsyncThunk<APIResponse, { token: string; newPassword: string }, { rejectValue: APIError }>(
     'api/resetPassword/reset',
     async ({ token, newPassword }, { rejectWithValue }) => {
         try {
             const formData = new FormData();
-            formData.append('token', token);
             formData.append('newPassword', newPassword);
-
+            const url = `${BASE_URL}/resetPassword/${token}`;
             const { data } = await axios.post<APIResponse>(
-                `${BASE_URL}/resetPassword/reset`, 
+                url, 
                 formData, 
                 { 
                     headers: { 
@@ -111,3 +127,4 @@ export const resetPassword = createAsyncThunk<APIResponse, { token: string; newP
         }
     }
 );
+

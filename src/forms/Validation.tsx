@@ -64,6 +64,9 @@ export const updatePasswordSchema = Yup.object({
 });
 
 export const resetPasswordSchema = Yup.object({
+    token:         
+        Yup.string()
+        .required("Le code est requis"),
     newPassword: 
         Yup.string()
         .required("Le mot de passe est requis")
@@ -80,3 +83,9 @@ export const checkoutSchema = Yup.object({
     customerNotes: Yup.string(),
     shipping: Yup.string().required("La livraison est requise.")
 });
+
+export const emailSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Email invalide')
+      .required('Email requis'),
+  });

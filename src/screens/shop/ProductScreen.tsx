@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, Image, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { WebView } from 'react-native-webview';
 import { AppDispatch, RootState } from '../../store/Store';
@@ -11,7 +11,9 @@ import Toast from 'react-native-toast-message';
 const { height: screenHeight } = Dimensions.get('window');
 
 export default function ProductScreen(): React.JSX.Element {
+
     const route = useRoute<RouteProp<Tabnav, 'Article'>>();
+    const navigation = useNavigation<NavigationProp<Tabnav>>();
     const { product } = route.params;
     const dispatch = useDispatch<AppDispatch>();
     const isItemInCart = useSelector((state: RootState) => selectIsItemInCart(state, product.id));
@@ -75,22 +77,35 @@ export default function ProductScreen(): React.JSX.Element {
             </View>
 
             {/* Bouton pour ajouter au panier */}
-            {!isItemInCart && (
+            {isItemInCart ? (
+                <TouchableOpacity 
+                    onPress={() => navigation.navigate('Panier')} 
+                    style={{
+                        backgroundColor: '#fff', 
+                        borderColor: '#DAA520', 
+                        borderWidth: 1, 
+                        padding: 15,
+                        borderRadius: 10,
+                        alignItems: 'center',
+                        marginVertical: 20,
+                        marginHorizontal: 30
+                    }}>
+                    <Text style={{ color: '#DAA520', fontSize: 17 }}>Voir le panier</Text>
+                </TouchableOpacity>
+            ) : (
                 <TouchableOpacity
                     onPress={handleAddToCart}
                     style={{
-                    backgroundColor: '#cf3982',
-                    padding: 20,
-                    borderRadius: 10,
-                    alignItems: 'center',
-                    marginVertical: 20, 
-                    marginRight: 20,
-                    marginLeft: 20
-                }}>
-            <Text style={{color: '#fff', fontSize: 20}}>Ajouter au panier</Text>
-          </TouchableOpacity>
+                        backgroundColor: '#cf3982',
+                        padding: 15,
+                        borderRadius: 10,
+                        alignItems: 'center',
+                        marginVertical: 20,
+                        marginHorizontal: 30
+                    }}>
+                    <Text style={{color: '#fff', fontSize: 17}}>Ajouter au panier</Text>
+                </TouchableOpacity>
             )}
-            <Toast />
         </ScrollView>
     );
 }

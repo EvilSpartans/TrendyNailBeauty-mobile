@@ -54,7 +54,7 @@ export default function SliderComponent({
               source={item.source ? item.source : null}
               style={{ width: screenWidth, height: '100%' }}
               resizeMode="cover"
-              onError={(e) => console.log('Image loading error: ', e.nativeEvent.error)}
+              // onError={(e) => console.log('Image loading error: ', e.nativeEvent.error)}
             />
             {styleVariant === 'default' ? (
               <StyledView

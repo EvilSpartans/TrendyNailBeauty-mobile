@@ -11,7 +11,7 @@ import { Product } from '../../models/Product';
 import { unwrapResult } from '@reduxjs/toolkit';
 import TitleComponent from '../main/TitleComponent';
 
-export default function BestProductsComponent(): React.JSX.Element {
+export default function FamousProductsComponent(): React.JSX.Element {
     
   const [products, setProducts] = useState<Product[]>([]); 
   const dispatch = useDispatch<AppDispatch>();
@@ -22,9 +22,9 @@ export default function BestProductsComponent(): React.JSX.Element {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const resultAction = await dispatch(getAllProducts({ sortBy: 'price_asc' }));
+        const resultAction = await dispatch(getAllProducts({ sortBy: 'price_desc' }));
         const data = unwrapResult(resultAction);
-        setProducts(data.products.slice(0, 7)); 
+        setProducts(data.products.slice(0, 3)); 
       } catch (error) {
         console.error('Erreur lors de la récupération des produits:', error);
       } finally {
@@ -35,9 +35,9 @@ export default function BestProductsComponent(): React.JSX.Element {
   }, [dispatch]);
 
   return (
-    <View style={{ paddingVertical: 50, backgroundColor: '#fafafa', borderRadius: 20  }}>
+    <View style={{ paddingVertical: 50 }}>
       {/* Titre principal */}
-      <TitleComponent mainText='Explorer les articles' subText="Populaire sur la boutique" />
+      <TitleComponent mainText='Meilleures ventes de la semaine' subText="Les articles phares" />
 
       {/* Liste horizontale des produits */}
       <FlatList
@@ -50,30 +50,45 @@ export default function BestProductsComponent(): React.JSX.Element {
           <TouchableOpacity
             onPress={() => navigation.navigate('Article', { product: item })} 
             style={{
-              marginRight: 12,
-              marginVertical: 12, 
-              alignItems: 'center',
-              padding: 14,
+              flexDirection: 'row',
+              marginRight: 10,
+              marginVertical: 10, 
+              padding: 16,
               backgroundColor: '#fff',
-              borderRadius: 15,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 3 },
-              shadowOpacity: 0.15,
-              shadowRadius: 6,
-              elevation: 5,
-              width: 160, // Augmentation de la largeur pour des cartes plus grandes
+              borderColor: '#DAA520',
+              borderWidth: 1,
+              borderRadius: 10,
+              alignItems: 'center',
+              width: 300, // Largeur augmentée pour les cartes
             }}>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <Text style={{ marginBottom: 5, textAlign: 'left', color: '#333', fontWeight: 'bold', fontSize: 16 }}>
+                {item.name}
+              </Text>
+              <Text style={{ marginBottom: 5, color: '#DAA520', fontWeight: 'bold', textAlign: 'left', fontSize: 16 }}>
+                {item.price} €
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Article', { product: item })}
+                style={{
+                  backgroundColor: '#fff',
+                  borderColor: '#DAA520',
+                  borderWidth: 1,
+                  padding: 10,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  marginTop: 8,
+                }}>
+                <Text style={{ color: '#DAA520', fontSize: 16 }}>
+                  Acheter
+                </Text>
+              </TouchableOpacity>
+            </View>
             <Image
               source={{uri: `${imageBaseUrl}/${item.image}`}}
-              style={{ width: 140, height: 140, borderRadius: 10 }} 
+              style={{ width: 140, height: 140, borderRadius: 10, marginLeft: 10 }} 
               resizeMode="cover"
             />
-            <Text style={{ marginTop: 10, textAlign: 'center', color: '#333', fontWeight: 'bold', fontSize: 16 }}>
-              {item.name}
-            </Text>
-            <Text style={{ marginTop: 5, color: '#DAA520', fontWeight: 'bold', textAlign: 'center', fontSize: 14 }}>
-              {item.price} €
-            </Text>
           </TouchableOpacity>
         )}
         showsHorizontalScrollIndicator={false} 

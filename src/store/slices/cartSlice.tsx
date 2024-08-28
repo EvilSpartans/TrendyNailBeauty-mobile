@@ -73,7 +73,7 @@ export const cartSlice = createSlice({
 });
 
 export const selectIsItemInCart = (state: RootState, itemId: string) => {
-    return state.cart.items.some(item => item.id === itemId);
+    return state.cart.items.some((item: { id: string; }) => item.id === itemId);
 };
 
 export const {
