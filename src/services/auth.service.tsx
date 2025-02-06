@@ -1,25 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from 'axios';
 import { User } from "../models/user";
+import { APIError } from "../models/APIError";
 import { APIResponse } from "../store/slices/userSlice";
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}`;
-
-interface APIError {
-    message: string;
-    detail?: string;
-}
-
-interface updatePassword {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-}
-  
-interface resetPassword {
-    token: string;
-    newPassword: string;
-}
 
 export const registerUser = createAsyncThunk<APIResponse, Partial<User>, { rejectValue: APIError }>(
     'api/register',

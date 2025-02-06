@@ -1,13 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Order } from "../models/Order";
+import { APIError } from "../models/APIError";
 import axios, { AxiosError } from "axios";
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}`;
-
-interface APIError {
-    message: string;
-    detail?: string;
-}
 
 export const getOrders = createAsyncThunk<Order[], string, { rejectValue: APIError }>(
     'api/orders',

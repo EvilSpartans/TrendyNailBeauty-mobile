@@ -1,13 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Category } from "../models/category";
+import { APIError } from "../models/APIError";
 import axios, { AxiosError } from 'axios';
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}`;
-
-interface APIError {
-    message: string;
-    detail?: string;
-}
 
 export const getAllCategories = createAsyncThunk<
   Category[],

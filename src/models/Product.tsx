@@ -14,3 +14,15 @@ export interface Product {
   orderQuantity: number;
   quantity: number;
 }
+
+export interface ProductQueryParams {
+  sortBy?: string;
+  [key: string]: any; 
+}
+
+export interface ProductResponse {
+  products: Product[];
+  page: number;
+  countPage: number;
+  totalItems: number;
+}

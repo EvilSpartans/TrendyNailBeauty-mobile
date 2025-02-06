@@ -1,25 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from 'axios';
-import { Product } from "../models/Product";
+import { ProductResponse, ProductQueryParams } from "../models/Product";
+import { APIError } from "../models/APIError";
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}`;
-
-interface APIError {
-    message: string;
-    detail?: string;
-}
-
-interface ProductQueryParams {
-  sortBy?: string;
-  [key: string]: any; 
-}
-
-interface ProductResponse {
-  products: Product[];
-  page: number;
-  countPage: number;
-  totalItems: number;
-}
 
 export const getAllProducts = createAsyncThunk<
   ProductResponse,

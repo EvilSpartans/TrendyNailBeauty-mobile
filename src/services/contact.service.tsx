@@ -1,13 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { Contact } from "../models/Contact";
+import { APIError } from "../models/APIError";
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}`;
-
-interface APIError {
-    message: string;
-    detail?: string;
-}
 
 export const createContact = createAsyncThunk<Partial<Contact>, { values: Partial<Contact>; }, { rejectValue: APIError }>(
     'api/contact',
